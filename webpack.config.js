@@ -7,8 +7,22 @@ module.exports = {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist')
     },
+    module: {
+        rules: [
+            {
+                test: /\.jsx?/i,
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env'],
+                    plugins: [
+                        ['transform-react-jsx', { pragma: 'h' }]
+                    ]
+                }
+            }
+        ]
+    },
     devServer: {
-        contentBase: './dist',
+        contentBase: path.join(__dirname, 'src'),
         port: 3000
     },
     plugins: [new HtmlWebpackPlugin()]

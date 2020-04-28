@@ -1,9 +1,10 @@
-function helloWorld() {
-    let element = document.createElement('div');
+import { h, render } from 'preact'
+import News from './screens/News/News'
 
-    element.innerHTML = 'Hello world';
+const App = () => (
+    <div>
+        <News/>
+    </div>
+)
 
-    return element;
-}
-
-document.body.appendChild(helloWorld());
+render(<App/>, document.body)
