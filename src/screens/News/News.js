@@ -2,9 +2,11 @@ import { h } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
 
 import { getFashionNews, getSportsArticles } from "../../services/news"
-import {flattenNewsData, getActiveFilters} from "../../dataProcessing/newsProcessing"
+import { flattenNewsData, getActiveFilters } from "../../dataProcessing/newsProcessing"
 
 import NewsElement from "./NewsElement/NewsElement"
+
+import './News.scss'
 
 const filterTypes = {
     sports: 'sports',
@@ -39,32 +41,32 @@ const News = () => {
         : "There are no news to display"
 
     return (
-        <div>
-            <div>
-                <input
-                    type="checkbox"
-                    checked={selectedFilters.sports}
-                    value={filterTypes.sports}
-                    onChange={handleFilterChange}
-                />
-                <label>Sports</label>
-                <input
-                    type="checkbox"
-                    checked={selectedFilters.fashion}
-                    value={filterTypes.fashion}
-                    onChange={handleFilterChange}
-                />
-                <label>Fashion</label>
-            </div>
-            <div>
+        <section className="newsSection">
+            <div className="filters">
+                <span className="filters__header">Data Sources</span>
                 <div>
-
+                    <input
+                        type="checkbox"
+                        checked={selectedFilters.sports}
+                        value={filterTypes.sports}
+                        onChange={handleFilterChange}
+                    />
+                    <label>Sports</label>
                 </div>
                 <div>
-                    {newsList}
+                    <input
+                        type="checkbox"
+                        checked={selectedFilters.fashion}
+                        value={filterTypes.fashion}
+                        onChange={handleFilterChange}
+                    />
+                    <label>Fashion</label>
                 </div>
             </div>
-        </div>
+            <div>
+                {newsList}
+            </div>
+        </section>
     )
 }
 export default News

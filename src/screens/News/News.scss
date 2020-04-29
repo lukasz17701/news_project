@@ -1,0 +1,14 @@
+.newsSection {
+  height: 100vh;
+  display: flex;
+  margin: 20px 30px;
+  border: 1px solid black;
+  padding: 100px 30px 0;
+}
+
+.filters{
+  width: 200px;
+  &__header {
+    text-decoration: underline;
+  }
+}
