@@ -5,7 +5,6 @@ import { getFashionNews, getSportsArticles } from "../../services/news"
 import {flattenNewsData, getActiveFilters} from "../../dataProcessing/newsProcessing"
 
 import NewsElement from "./NewsElement/NewsElement"
-import NewsList from "./NewsList/NewsList"
 
 const filterTypes = {
     sports: 'sports',
