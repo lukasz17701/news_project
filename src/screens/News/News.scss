@@ -1,14 +1,22 @@
 .newsSection {
-  height: 100vh;
-  display: flex;
-  margin: 20px 30px;
-  border: 1px solid black;
+  height: 100%;
   padding: 100px 30px 0;
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  border: 1px solid black;
 }
 
 .filters{
-  width: 200px;
+  width: 160px;
+  flex-shrink: 0;
   &__header {
     text-decoration: underline;
   }
+}
+
+.newsWrapper {
+  max-height: 100%;
+  overflow-y: scroll;
+  flex-grow: 1;
 }

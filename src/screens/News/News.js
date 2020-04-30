@@ -1,21 +1,18 @@
 import { h } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
+import { requestRetriesAmount, filterTypes } from "../../consts/news"
 
 import { getFashionNews, getSportsArticles } from "../../services/news"
-import { flattenNewsData, getActiveFilters } from "../../dataProcessing/newsProcessing"
+import { getActiveFilters } from "../../dataProcessing/newsProcessing"
+import { requestWithRetries } from "../../utils/requestWithRetries"
 
 import NewsElement from "./NewsElement/NewsElement"
 
 import './News.scss'
 
-const filterTypes = {
-    sports: 'sports',
-    fashion: 'fashion',
-}
-
 const filtersToRequestMap = {
-    sports: getSportsArticles,
-    fashion: getFashionNews,
+    sports: () => requestWithRetries(getSportsArticles, requestRetriesAmount),
+    fashion: () => requestWithRetries(getFashionNews, requestRetriesAmount),
 }
 
 const News = () => {
@@ -23,12 +20,16 @@ const News = () => {
     const [selectedFilters, setSelectedFilters] = useState({ sports: true, fashion: true })
 
     const clearNews = () => setNews([])
+    const addNews = newsToAdd => setNews(currentItems => [...currentItems, ...newsToAdd])
     const setFilterValue = ({checked, key}) => setSelectedFilters({...selectedFilters, [key]: checked})
     const handleFilterChange = ({target: {checked, value}}) => setFilterValue({checked, key: value})
 
-    const getNews = activeFilters => Promise.all(activeFilters.map(filter => filtersToRequestMap[filter]()))
-        .then(flattenNewsData)
-        .then(setNews)
+    const getNews = activeFilters => activeFilters
+        .forEach(filter => filtersToRequestMap[filter]()
+            .then(({articles}) => addNews(articles))
+            // TODO: Error handling should be added here
+            .catch(console.log)
+        )
 
     useEffect(() => {
         clearNews()
@@ -63,7 +64,7 @@ const News = () => {
                     <label>Fashion</label>
                 </div>
             </div>
-            <div>
+            <div className="newsWrapper">
                 {newsList}
             </div>
         </section>
